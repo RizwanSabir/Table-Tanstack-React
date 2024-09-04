@@ -1,8 +1,22 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# React Table with TanStack
 
-Currently, two official plugins are available:
+This project implements a table component using the TanStack library (formerly known as React Table). The table supports row selection, filtering, pagination, and expansion functionalities.
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Row Selection:
+ Allows users to select rows in the table.
+
+### Filtering:
+Provides a mechanism to filter rows based on specific criteria.
+
+### Pagination:
+Handles the pagination of table data.
+
+### Row Expansion:
+ Supports expanding rows to show additional details.
+## Demo
+https://github.com/user-attachments/assets/34b57c51-4dcb-44e3-bf7e-e6ff9dab5b2e
+
+
+
