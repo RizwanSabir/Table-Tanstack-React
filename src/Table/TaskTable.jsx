@@ -14,6 +14,7 @@ import Filters from './Filters';
 import DeleteIcon from './DeleteIcon';
 import User from './User';
 import { DATA } from '../data';
+import useCurrentScreenSize from './useCurrentScreenSize';
 
 
 
@@ -55,53 +56,130 @@ const TaskTable = () => {
     return userName.includes(searchTerm) || userUsername.includes(searchTerm);
   };
 
+  const screenSize = useCurrentScreenSize();
 
-  const columns = [
-    {
-      accessorKey: 'user',
-      header: 'User',
-      cell: User,
-      size: 200,
-      enableColumnFilter: true,
-      filterFn: userFilterFn,
-    },
-    {
-      accessorKey: 'issue',
-      header: 'Issue',
-      cell: (props) => <p className='poppins-semibold text-[#1a3048cc]'>{props.getValue()}</p>,
-      size: 150,
-    },
-    {
-      accessorKey: 'description',
-      header: 'Description',
-      cell: (props) => <p className='poppins-semibold text-[#1a3048cc]'>{props.getValue()}</p>,
-      size: 150,
-    },
-    {
-      accessorKey: 'status',
-      header: 'Status',
-      cell: StatusCell,
-      size: 150,
-      enableColumnFilter: true,
-      filterFn: (row, columnId, filterStatuses) => {
-        if (filterStatuses.length === 0) return true;
-        const status = row.getValue(columnId);
-        return filterStatuses.includes(status?.id);
-      },
-    },
-    {
-      id: 'actions',
-      header: 'Actions',
-      cell: ({ row }) => (
-        <DeleteIcon ClickFunction={() => handleDeleteRow(row.index, data, setData)} />
-      ),
-      size: 50,
-    },
-  ];
+  // const columns = [
+  //   {
+  //     accessorKey: 'user',
+  //     header: 'User',
+  //     cell: User,
+  //     size: 200,
+  //     enableColumnFilter: true,
+  //     filterFn: userFilterFn,
+  //   },
+  //   {
+  //     accessorKey: 'issue',
+  //     header: 'Issue',
+  //     cell: (props) => <p className='poppins-semibold text-[#1a3048cc]'>{props.getValue()}</p>,
+  //     size: 150,
+  //   },
+  //   {
+  //     accessorKey: 'description',
+  //     header: 'Description',
+  //     cell: (props) => <p className='poppins-semibold text-[#1a3048cc]'>{props.getValue()}</p>,
+  //     size: 150,
+  //   },
+  //   {
+  //     accessorKey: 'status',
+  //     header: 'Status',
+  //     cell: StatusCell,
+  //     size: 150,
+  //     enableColumnFilter: true,
+  //     filterFn: (row, columnId, filterStatuses) => {
+  //       if (filterStatuses.length === 0) return true;
+  //       const status = row.getValue(columnId);
+  //       return filterStatuses.includes(status?.id);
+  //     },
+  //   },
+  //   {
+  //     id: 'actions',
+  //     header: 'Actions',
+  //     cell: ({ row }) => (
+  //       <DeleteIcon ClickFunction={() => handleDeleteRow(row.index, data, setData)} />
+  //     ),
+  //     size: 50,
+  //   },
+  // ];
+
+
+
 
 
 
   // Table instance with resizing and row selection
+ 
+  // Define the columns based on the current screen size
+ 
+
+    // Helper function to dynamically set column size based on screen size
+    const getColumnSize = (baseSize) => {
+      // Shrink column size for small screens
+      if (screenSize === 'xxs' || screenSize === 'xs' || screenSize === 'sm') {
+        return baseSize * 0.9; // Reduce size by 40% on small screens
+      }
+      return baseSize; // Default size for larger screens
+    };
+  
+    // Define the columns based on the current screen size
+    const columns = [
+      {
+        accessorKey: 'user',
+        header: 'User',
+        cell: User,
+        size: getColumnSize(200), // Dynamically adjust size
+        enableColumnFilter: true,
+        filterFn: userFilterFn,
+      },
+   
+
+    // Conditionally include the Description column only on larger screens
+    ...(screenSize !== 'xxs' && screenSize !== 'xs' && screenSize !== 'sm' 
+      ? (console.log('Adding Description column for screen size:', screenSize), [
+        {
+          accessorKey: 'issue',
+          header: 'Issue',
+          cell: (props) => <p className="poppins-semibold text-[#1a3048cc]">{props.getValue()}</p>,
+          size: getColumnSize(80), // Dynamically adjust size
+        },
+        ])
+      : ""), // Exclude Description column on small screens
+      
+      // Conditionally include the Description column only on larger screens
+      ...(screenSize !== 'xxs' && screenSize !== 'xs' && screenSize !== 'sm' 
+        ? (console.log('Adding Description column for screen size:', screenSize), [
+            {
+              accessorKey: 'description',
+              header: 'Description',
+              cell: (props) => <p className="poppins-semibold text-[#1a3048cc]">{props.getValue()}</p>,
+              size: getColumnSize(150),
+            },
+          ])
+        : ""), // Exclude Description column on small screens
+      {
+        accessorKey: 'status',
+        header: 'Status',
+        cell: StatusCell,
+        size: getColumnSize(150), // Dynamically adjust size
+        enableColumnFilter: true,
+        filterFn: (row, columnId, filterStatuses) => {
+          if (filterStatuses.length === 0) return true;
+          const status = row.getValue(columnId);
+          return filterStatuses.includes(status?.id);
+        },
+      },
+      {
+        id: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => (
+          <DeleteIcon ClickFunction={() => handleDeleteRow(row.index, data, setData)} />
+        ),
+        size: getColumnSize(50), // Dynamically adjust size
+      },
+
+
+      
+    ];
+ 
   const table = useReactTable({
     data,
     columns,
@@ -139,12 +217,12 @@ const TaskTable = () => {
   return (
     <>
 
-      {ShowIssue ? <div className='text-[9px] sm:text-[10px] mdm:text-[12px] flex justify-center flex-col items-center montserrat poppins-regular h-screen '>
+      {ShowIssue ? <div className='text-[9px] sm:text-[10px] mdm:text-[12px] flex justify-center flex-col items-center montserrat poppins-regular h-screen   '>
         {/* Table Start here */}
 
-        <div className="table p-4  rounded-xl " style={{ width: table.getTotalSize() }}>
+        <div className="bg-white  p-4  rounded-xl  " style={{width: table.getTotalSize()  }}>
 
-          <div className='flex items-center justify-between   mb-4'>
+          <div className='flex items-center flex-col sm:flex-row justify-between   mb-4'>
             <Filters columnFilters={columnFilters} setColumnFilters={setColumnFilters} />
             <button
               onClick={() => { removeSelectedRows(); }}
@@ -156,14 +234,15 @@ const TaskTable = () => {
 
 
 
-          {/* Render Table Headers */}
-          <div className='px-2 bg-[#F7F8FA] rounded-xl'>
+         <div className='over'>
+           {/* Render Table Headers */}
+           <div className='px-2 bg-[#F7F8FA] mx-auto rounded-xl'>
             {table.getHeaderGroups().map((headerGroup) => (
               <div className="tr" key={headerGroup.id}>
                 <div className="th">
                   <input
                     type="checkbox"
-                    className='custom-checkbox'
+                    className='hidden md:block custom-checkbox'
                     {...{
                       checked: table.getIsAllRowsSelected(),
                       indeterminate: table.getIsSomeRowsSelected(),
@@ -197,8 +276,8 @@ const TaskTable = () => {
               <div className="tr" key={row.id}>
                 <div className="td">
                   <input
-                    type="checkbox"
-                    className="custom-checkbox"
+                    type=" checkbox"
+                    className="hidden md:block custom-checkbox"
                     checked={selectedRows[row.index]}
                     onChange={() => {
                       // Toggle the selected row and then filter out rows with false values
@@ -252,6 +331,9 @@ const TaskTable = () => {
               </div>
             </div>
           </div>
+
+         </div>
+          
         </div>
 
 

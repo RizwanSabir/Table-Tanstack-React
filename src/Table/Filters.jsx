@@ -21,7 +21,7 @@ const Filters = ({ columnFilters , setColumnFilters }) => {
   
 
   return (
-    <div className="flex items-center  space-x-3">
+    <div className="flex items-center  space-x-3 flex-col sm:flex-row">
       <div className="relative ">
         <input
           type="text"

@@ -14,10 +14,9 @@ svg {
 
 .tr {
   display: flex;
-  width: fit-content;
+
   
 
-  overflow: hidden;
   border-radius: 20px;
   border: 2px;
   

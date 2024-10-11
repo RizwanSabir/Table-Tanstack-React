@@ -5,7 +5,7 @@ const User = ({ getValue, row, column, table }) => {
   return (
     <div className=' flex  my-3 text-[9px] sm:text-[10px] mdm:text-[12px] w-[150px]'>
 
-    <img className='size-[35px] Avatar' src={`/Media/${initialValue.img}`} alt="" />
+    <img className=' hidden sm:block size-[35px] Avatar' src={`/Media/${initialValue.img}`} alt="" />
     <div className=' flex flex-1 flex-col  ml-2'>
       <div className='flex flex-1 justify-between  items-center'>
         <p className='poppins-semibold '>{initialValue.name}</p>

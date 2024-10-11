@@ -44,8 +44,8 @@ const StatusCell = ({ getValue, row, column, table }) => {
 
         
       >
-         <div className="w-[70px]  sm:w-[100px] mdm:w-[120px] text-center col-span-2 ">
-            <p className={`   ${ BORDER_COLORS[name]}  cursor-pointer  border-[1px]    rounded-2xl px-3 py-2  `}  > {name}</p>
+         <div className="w-[40px]  sm:w-[70px] mdm:w-[120px] text-center col-span-2 ">
+            <p className={`   ${ BORDER_COLORS[name]}  cursor-pointer  xs:border-[1px]    rounded-2xl px-3 py-2  `}  > {name}</p>
           </div>
        
       </div>
